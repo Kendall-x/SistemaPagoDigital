@@ -1,3 +1,6 @@
 <Solution>
+  <Folder Name="/Datos/">
+    <File Path="AplicacionDbContext.cs" />
+  </Folder>
   <Project Path="SistemaPagoDigital.csproj" />
 </Solution>
