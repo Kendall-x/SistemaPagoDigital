@@ -125,5 +125,40 @@ namespace SistemaPagoDigital.Controllers
                 return View(modelo);
             }
         }
+
+        [HttpGet]
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginViewModel modelo)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(modelo);
+            }
+
+            var resultado = await _signInManager.PasswordSignInAsync(
+                modelo.Correo,
+                modelo.Contrasena,
+                isPersistent: false,
+                lockoutOnFailure: true
+            );
+
+            if (resultado.Succeeded)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            ModelState.AddModelError(
+                string.Empty,
+                "Correo o contraseña incorrectos."
+            );
+
+            return View(modelo);
+        }
     }
 }
