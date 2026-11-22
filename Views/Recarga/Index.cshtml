@@ -1,0 +1,33 @@
+﻿@model SistemaPagoDigital.ViewModels.RecargaViewModel
+
+@{
+    ViewData["Title"] = "Realizar Recarga";
+}
+
+<h2>Realizar recarga</h2>
+
+<p>Ingrese el monto que desea recargar.</p>
+<p>El monto permitido es de $1 a $1 000.</p>
+
+<form asp-controller="Recarga" asp-action="Crear" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="Monto">Monto de la recarga</label>
+
+        <input asp-for="Monto" class="form-control" />
+
+        <span asp-validation-for="Monto" class="text-danger"></span>
+    </div>
+
+    <br />
+
+    <button type="submit" class="btn btn-primary">
+        Realizar recarga
+    </button>
+
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

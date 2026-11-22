@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<CuentaService>();
+builder.Services.AddScoped<RecargaService>();
 
 builder.Services
     .AddIdentity<Usuario, IdentityRole<int>>()
