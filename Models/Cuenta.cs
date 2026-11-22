@@ -8,6 +8,8 @@
 
         public decimal Saldo { get; set; }
 
+        public DateTime FechaUltimaActualizacion { get; set; } = DateTime.Now;
+
         public Usuario Usuario { get; set; } = null!;
     }
 }

@@ -1,0 +1,23 @@
+﻿@model SistemaPagoDigital.Models.Cuenta
+
+@{
+    ViewData["Title"] = "Mi cuenta";
+}
+
+<h2>Mi cuenta</h2>
+
+<div class="card">
+    <div class="card-body">
+        <p><strong>Número de cuenta:</strong> @Model.Id</p>
+
+        <p>
+            <strong>Saldo disponible:</strong>
+            @Model.Saldo.ToString("C")
+        </p>
+
+        <p>
+            <strong>Última actualización:</strong>
+            @Model.FechaUltimaActualizacion
+        </p>
+    </div>
+</div>

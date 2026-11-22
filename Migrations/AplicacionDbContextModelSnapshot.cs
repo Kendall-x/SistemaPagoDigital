@@ -190,6 +190,9 @@ namespace SistemaPagoDigital.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("FechaUltimaActualizacion")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<decimal>("Saldo")
                         .HasPrecision(18, 2)
                         .HasColumnType("decimal(18,2)");

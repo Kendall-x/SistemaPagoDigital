@@ -2,11 +2,14 @@ using Microsoft.EntityFrameworkCore;
 using SistemaPagoDigital.Datos;
 using Microsoft.AspNetCore.Identity;
 using SistemaPagoDigital.Models;
+using SistemaPagoDigital.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<CuentaService>();
+
 builder.Services
     .AddIdentity<Usuario, IdentityRole<int>>()
     .AddEntityFrameworkStores<AplicacionDbContext>()
