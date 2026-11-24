@@ -1,0 +1,36 @@
+﻿@model IEnumerable<SistemaPagoDigital.Models.Movimiento>
+
+@{
+    ViewData["Title"] = "Historial de Movimientos";
+}
+
+<h2>Historial de Movimientos</h2>
+
+@if (!Model.Any())
+{
+    <p>No tienes movimientos registrados.</p>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Tipo</th>
+                <th>Monto</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var movimiento in Model)
+            {
+                <tr>
+                    <td>@movimiento.Fecha.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@movimiento.Tipo</td>
+                    <td>@movimiento.Monto.ToString("C")</td>
+                    <td>@movimiento.Estado</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

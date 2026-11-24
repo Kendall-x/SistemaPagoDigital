@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<CuentaService>();
 builder.Services.AddScoped<RecargaService>();
+builder.Services.AddScoped<MovimientoService>();
 
 builder.Services
     .AddIdentity<Usuario, IdentityRole<int>>()

@@ -217,6 +217,11 @@ namespace SistemaPagoDigital.Migrations
                     b.Property<int>("CuentaId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)");
+
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("datetime(6)");
 
