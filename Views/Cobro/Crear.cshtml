@@ -1,0 +1,35 @@
+﻿@model SistemaPagoDigital.ViewModels.CobroViewModel
+
+@{
+    ViewData["Title"] = "Crear Cobro";
+}
+
+<h2>Crear cobro</h2>
+
+<form asp-controller="Cobro" asp-action="Crear" method="post">
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group">
+        <label asp-for="Descripcion">Descripción</label>
+        <input asp-for="Descripcion" class="form-control" />
+        <span asp-validation-for="Descripcion" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Monto">Monto (₡)</label>
+        <input asp-for="Monto" class="form-control" />
+        <span asp-validation-for="Monto" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        Generar cobro
+    </button>
+
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,21 @@
+﻿@model SistemaPagoDigital.Models.Cobro
+
+@{
+    ViewData["Title"] = "Cobro Generado";
+}
+
+<h2>Cobro generado correctamente</h2>
+
+<p><strong>Descripción:</strong> @Model.Descripcion</p>
+
+<p><strong>Monto:</strong> @Model.Monto.ToString("C")</p>
+
+<p><strong>Estado:</strong> @Model.Estado</p>
+
+<hr />
+
+<h3>Código de verificación</h3>
+
+<h1>@Model.Codigo</h1>
+
+<p>Este código tiene una vigencia de 5 minutos.</p>
