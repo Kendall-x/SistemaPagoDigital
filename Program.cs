@@ -12,6 +12,7 @@ builder.Services.AddScoped<CuentaService>();
 builder.Services.AddScoped<RecargaService>();
 builder.Services.AddScoped<MovimientoService>();
 builder.Services.AddScoped<CobroService>();
+builder.Services.AddScoped<PagoService>();
 
 builder.Services
     .AddIdentity<Usuario, IdentityRole<int>>()

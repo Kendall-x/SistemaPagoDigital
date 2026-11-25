@@ -1,0 +1,33 @@
+﻿@model SistemaPagoDigital.ViewModels.PagoViewModel
+
+@{
+    ViewData["Title"] = "Realizar pago";
+}
+
+<h2>Realizar pago</h2>
+
+<p>Ingrese el código de verificación de seis dígitos.</p>
+
+<form asp-action="Index" method="post">
+
+    <div class="mb-3">
+        <label asp-for="Codigo" class="form-label">
+            Código de verificación
+        </label>
+
+        <input asp-for="Codigo" class="form-control"
+               maxlength="6" placeholder="000000" />
+
+        <span asp-validation-for="Codigo"
+              class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        Confirmar pago
+    </button>
+
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

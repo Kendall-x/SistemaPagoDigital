@@ -161,7 +161,8 @@ namespace SistemaPagoDigital.Migrations
 
                     b.Property<string>("Descripcion")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(150)
+                        .HasColumnType("varchar(150)");
 
                     b.Property<string>("Estado")
                         .IsRequired()
@@ -267,7 +268,8 @@ namespace SistemaPagoDigital.Migrations
 
                     b.HasIndex("ClienteId");
 
-                    b.HasIndex("CobroId");
+                    b.HasIndex("CobroId")
+                        .IsUnique();
 
                     b.ToTable("Pagos");
                 });

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using SistemaPagoDigital.Datos;
 using SistemaPagoDigital.Models;
 using SistemaPagoDigital.ViewModels;
@@ -95,18 +94,15 @@ namespace SistemaPagoDigital.Controllers
                     return View(modelo);
                 }
 
-                // Crear cuenta para los clientes
-                if (modelo.Rol == "Cliente")
+                // Crear cuenta para el usuario (Ya sea Cliente o Conductor)
+                var cuenta = new Cuenta
                 {
-                    var cuenta = new Cuenta
-                    {
-                        UsuarioId = usuario.Id,
-                        Saldo = 0
-                    };
+                    UsuarioId = usuario.Id,
+                    Saldo = 0
+                };
 
-                    _context.Cuentas.Add(cuenta);
-                    await _context.SaveChangesAsync();
-                }
+                _context.Cuentas.Add(cuenta);
+                await _context.SaveChangesAsync();
 
                 // Confirmar la transacción
                 await transaccion.CommitAsync();

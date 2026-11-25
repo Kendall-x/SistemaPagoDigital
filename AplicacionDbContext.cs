@@ -54,6 +54,11 @@ namespace SistemaPagoDigital.Datos
                 .HasForeignKey(p => p.CobroId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            // Un cobro solamente puede tener un pago.
+            modelBuilder.Entity<Pago>()
+                .HasIndex(p => p.CobroId)
+                .IsUnique();
+
             // Una cuenta puede tener varias recargas.
             modelBuilder.Entity<Recarga>()
                 .HasOne(r => r.Cuenta)
