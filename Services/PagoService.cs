@@ -168,5 +168,38 @@ namespace SistemaPagoDigital.Services
                 return false;
             }
         }
+
+        // Consultar los pagos recibidos por un Conductor.
+        public async Task<List<Pago>> ConsultarPagosRecibidosAsync(int conductorId)
+        {
+            return await _context.Pagos
+                .Include(p => p.Cobro)
+                .Include(p => p.Cliente)
+                .Where(p => p.Cobro.ConductorId == conductorId)
+                .OrderByDescending(p => p.FechaPago)
+                .ToListAsync();
+        }
+
+        // Validar un pago recibido por el Conductor.
+        public async Task<bool> ValidarPagoAsync(int pagoId, int conductorId)
+        {
+            var pago = await _context.Pagos
+                .Include(p => p.Cobro)
+                .FirstOrDefaultAsync(p =>
+                    p.Id == pagoId &&
+                    p.Cobro.ConductorId == conductorId);
+
+            if (pago == null || pago.Cobro.Estado != "Pagado")
+            {
+                return false;
+            }
+
+            pago.Cobro.Estado = "Validado";
+
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
+
     }
 }

@@ -1,0 +1,76 @@
+﻿@model List<SistemaPagoDigital.Models.Pago>
+
+@{
+    ViewData["Title"] = "Pagos Recibidos";
+}
+
+<h2>Pagos recibidos</h2>
+
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Mensaje"]
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info">
+        Todavía no has recibido pagos.
+    </div>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Cliente</th>
+                <th>Descripción</th>
+                <th>Código</th>
+                <th>Monto</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var pago in Model)
+            {
+                <tr>
+                    <td>@pago.Cliente.Nombre @pago.Cliente.Apellidos</td>
+                    <td>@pago.Cobro.Descripcion</td>
+                    <td>@pago.Cobro.Codigo</td>
+                    <td>@pago.Monto.ToString("C")</td>
+                    <td>@pago.FechaPago</td>
+                    <td>@pago.Cobro.Estado</td>
+                    <td>
+                        @if (pago.Cobro.Estado == "Pagado")
+                        {
+                            <form asp-controller="Conductor"
+                                  asp-action="ValidarPago"
+                                  method="post">
+
+                                <input type="hidden" name="pagoId" value="@pago.Id" />
+
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    Validar pago
+                                </button>
+                            </form>
+                        }
+                        else
+                        {
+                            <span class="text-success">Validado</span>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
