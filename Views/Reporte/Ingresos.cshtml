@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "Consultar ingresos";
+    ViewData["Title"] = "Consultar Ingresos";
 }
 
 <h2>Consultar ingresos</h2>
@@ -8,14 +8,41 @@
 
     <div class="mb-3">
         <label class="form-label">Fecha inicial</label>
-        <input type="date" name="fechaInicio" class="form-control"
-               value="@Context.Request.Query["fechaInicio"]" />
+        <input type="date"
+               name="fechaInicio"
+               class="form-control"
+               value="@Context.Request.Query["fechaInicio"]"
+               required />
     </div>
 
     <div class="mb-3">
         <label class="form-label">Fecha final</label>
-        <input type="date" name="fechaFin" class="form-control"
-               value="@Context.Request.Query["fechaFin"]" />
+        <input type="date"
+               name="fechaFin"
+               class="form-control"
+               value="@Context.Request.Query["fechaFin"]"
+               required />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Agrupar ingresos por:</label>
+
+        <select name="periodo" class="form-select">
+            <option value="Dia"
+                    selected="@(ViewBag.PeriodoSeleccionado == "Dia")">
+                Día
+            </option>
+
+            <option value="Semana"
+                    selected="@(ViewBag.PeriodoSeleccionado == "Semana")">
+                Semana
+            </option>
+
+            <option value="Mes"
+                    selected="@(ViewBag.PeriodoSeleccionado == "Mes")">
+                Mes
+            </option>
+        </select>
     </div>
 
     <button type="submit" class="btn btn-primary">
@@ -36,4 +63,25 @@
             <h3>@(((decimal)ViewBag.TotalIngresos).ToString("C"))</h3>
         </div>
     </div>
+
+    <h4 class="mt-4">Ingresos por período</h4>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Período</th>
+                <th>Total recaudado</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var ingreso in (Dictionary<string, decimal>)ViewBag.IngresosPorPeriodo)
+            {
+                <tr>
+                    <td>@ingreso.Key</td>
+                    <td>@ingreso.Value.ToString("C")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }

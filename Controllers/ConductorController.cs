@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SistemaPagoDigital.Services;
 using System.Security.Claims;
+using System.Text;
 
 namespace SistemaPagoDigital.Controllers
 {
@@ -31,6 +32,44 @@ namespace SistemaPagoDigital.Controllers
                 .ConsultarPagosRecibidosAsync(conductorId);
 
             return View(pagos);
+        }
+
+        // Exportar los pagos recibidos a CSV.
+        public async Task<IActionResult> ExportarPagosRecibidos()
+        {
+            int conductorId = int.Parse(
+                User.FindFirst(ClaimTypes.NameIdentifier)!.Value
+            );
+
+            var pagos = await _pagoService
+                .ConsultarPagosRecibidosAsync(conductorId);
+
+            var contenido = new StringBuilder();
+
+            contenido.AppendLine(
+                "Fecha de pago;Codigo;Cliente;Monto;Estado de validacion"
+            );
+
+            foreach (var pago in pagos)
+            {
+                contenido.AppendLine(
+                    $"{pago.FechaPago:yyyy-MM-dd HH:mm:ss};" +
+                    $"{pago.Cobro.Codigo};" +
+                    $"\"{pago.Cliente.Nombre} {pago.Cliente.Apellidos}\";" +
+                    $"{pago.Monto};" +
+                    $"{pago.Cobro.Estado}"
+                );
+            }
+
+            byte[] archivo = Encoding.UTF8.GetPreamble()
+                .Concat(Encoding.UTF8.GetBytes(contenido.ToString()))
+                .ToArray();
+
+            return File(
+                archivo,
+                "text/csv",
+                "Pagos_Recibidos.csv"
+            );
         }
 
         // Validar un pago recibido.

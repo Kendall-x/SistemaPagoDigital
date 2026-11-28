@@ -1,0 +1,52 @@
+﻿@model Dictionary<string, int>
+
+@{
+    ViewData["Title"] = "Cantidad de cobros por estado";
+}
+
+<h2>Cantidad de cobros por estado</h2>
+
+<form asp-action="CantidadCobrosPorEstado" method="get">
+    <div class="mb-3">
+        <label>Fecha inicial</label>
+        <input type="date" name="fechaInicio"
+               value="@ViewBag.FechaInicio"
+               class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+        <label>Fecha final</label>
+        <input type="date" name="fechaFin"
+               value="@ViewBag.FechaFin"
+               class="form-control" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        Consultar
+    </button>
+</form>
+
+<div asp-validation-summary="All" class="text-danger"></div>
+
+@if (Model != null)
+{
+    <h4 class="mt-4">Resultados</h4>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Estado</th>
+                <th>Cantidad de cobros</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Key</td>
+                    <td>@item.Value</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

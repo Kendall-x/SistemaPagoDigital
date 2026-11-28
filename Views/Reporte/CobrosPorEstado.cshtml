@@ -36,6 +36,13 @@
     </button>
 </form>
 
+<a asp-controller="Reporte"
+   asp-action="ExportarCobrosPorEstado"
+   asp-route-estado="@ViewBag.EstadoSeleccionado"
+   class="btn btn-success mb-3">
+    Descargar reporte CSV
+</a>
+
 @if (Model.Count == 0)
 {
     <p>No hay cobros registrados con ese estado.</p>
