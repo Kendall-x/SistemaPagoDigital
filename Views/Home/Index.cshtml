@@ -2,6 +2,13 @@
     ViewData["Title"] = "Inicio";
 }
 
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-success">
+        <strong>@TempData["Mensaje"]</strong>
+    </div>
+}
+
 <div class="welcome-panel">
     <span class="welcome-tag">SISTEMA DE PAGO DIGITAL</span>
 

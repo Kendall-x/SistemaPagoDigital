@@ -107,6 +107,8 @@ namespace SistemaPagoDigital.Controllers
                 // Confirmar la transacción
                 await transaccion.CommitAsync();
 
+                TempData["Mensaje"] = "¡Usuario creado correctamente!";
+
                 return RedirectToAction("Index", "Home");
             }
             catch (Exception)
