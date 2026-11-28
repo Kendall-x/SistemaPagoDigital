@@ -93,4 +93,4 @@ Entre las principales entidades se encuentran:
 
 ## Uso de inteligencia artificial
 
-Se utilizaron herramientas de inteligencia artificial como apoyo para la explicación de conceptos, revisión de errores, depuración y orientación durante el desarrollo. El equipo revisó, comprendió y adaptó las soluciones utilizadas.
+Se utilizaron herramientas de inteligencia artificial como apoyo para la explicación de conceptos, revisión de errores, depuración y orientación durante el desarrollo, la que más use fue ChatGPT
