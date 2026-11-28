@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Consultar ingresos";
+}
+
+<h2>Consultar ingresos</h2>
+
+<form asp-action="Ingresos" method="get">
+
+    <div class="mb-3">
+        <label class="form-label">Fecha inicial</label>
+        <input type="date" name="fechaInicio" class="form-control"
+               value="@Context.Request.Query["fechaInicio"]" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Fecha final</label>
+        <input type="date" name="fechaFin" class="form-control"
+               value="@Context.Request.Query["fechaFin"]" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        Calcular ingresos
+    </button>
+
+</form>
+
+<div asp-validation-summary="All" class="text-danger mt-2"></div>
+
+@if (Context.Request.Query.ContainsKey("fechaInicio") &&
+     Context.Request.Query.ContainsKey("fechaFin") &&
+     !ViewData.ModelState.Values.Any(v => v.Errors.Count > 0))
+{
+    <div class="card mt-4">
+        <div class="card-body">
+            <h4>Total de ingresos</h4>
+            <h3>@(((decimal)ViewBag.TotalIngresos).ToString("C"))</h3>
+        </div>
+    </div>
+}

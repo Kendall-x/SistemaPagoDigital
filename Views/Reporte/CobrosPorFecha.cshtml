@@ -1,0 +1,63 @@
+﻿@model List<SistemaPagoDigital.Models.Cobro>
+
+@{
+    ViewData["Title"] = "Cobros Por Fecha";
+}
+
+<h2>Consultar cobros por fecha</h2>
+
+<form asp-action="CobrosPorFecha" method="get">
+
+    <div class="mb-3">
+        <label class="form-label">Fecha inicial</label>
+        <input type="date" name="fechaInicio" class="form-control"
+               value="@Context.Request.Query["fechaInicio"]" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Fecha final</label>
+        <input type="date" name="fechaFin" class="form-control"
+               value="@Context.Request.Query["fechaFin"]" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        Consultar
+    </button>
+
+</form>
+
+<div asp-validation-summary="All" class="text-danger mt-2"></div>
+
+<hr />
+
+@if (Model.Count == 0)
+{
+    <p>No hay cobros registrados en el rango de fechas seleccionado.</p>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Descripción</th>
+                <th>Monto</th>
+                <th>Código</th>
+                <th>Fecha de creación</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var cobro in Model)
+            {
+                <tr>
+                    <td>@cobro.Descripcion</td>
+                    <td>@cobro.Monto.ToString("C")</td>
+                    <td>@cobro.Codigo</td>
+                    <td>@cobro.FechaCreacion</td>
+                    <td>@cobro.Estado</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
