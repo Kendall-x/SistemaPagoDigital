@@ -14,6 +14,7 @@ builder.Services.AddScoped<MovimientoService>();
 builder.Services.AddScoped<CobroService>();
 builder.Services.AddScoped<PagoService>();
 builder.Services.AddScoped<ReporteService>();
+builder.Services.AddHostedService<ExpiracionCobrosService>();
 
 builder.Services
     .AddIdentity<Usuario, IdentityRole<int>>()

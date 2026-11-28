@@ -43,5 +43,34 @@ namespace SistemaPagoDigital.Controllers
 
             return View("Resultado", cobro);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Cancelar(int cobroId)
+        {
+            int conductorId = int.Parse(
+                User.FindFirstValue(ClaimTypes.NameIdentifier)!
+            );
+
+            bool resultado = await _cobroService.CancelarCobroAsync(
+                cobroId,
+                conductorId
+            );
+
+            if (resultado)
+            {
+                TempData["Mensaje"] = "El cobro fue cancelado correctamente.";
+            }
+            else
+            {
+                TempData["Error"] = "No se pudo cancelar el cobro. Puede que ya no esté pendiente o haya vencido.";
+            }
+
+            return RedirectToAction(
+                "CobrosPorEstado",
+                "Reporte",
+                new { estado = "Cancelado" }
+            );
+        }
     }
 }

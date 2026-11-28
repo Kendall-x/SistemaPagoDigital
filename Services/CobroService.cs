@@ -64,5 +64,46 @@ namespace SistemaPagoDigital.Services
 
             return cobro;
         }
+
+        // Actualizar los cobros que ya vencieron.
+        public async Task ActualizarCobrosExpiradosAsync()
+        {
+            var cobrosExpirados = await _context.Cobros
+                .Where(c => c.Estado == "Pendiente" &&
+                            c.FechaExpiracion <= DateTime.Now)
+                .ToListAsync();
+
+            foreach (var cobro in cobrosExpirados)
+            {
+                cobro.Estado = "Expirado";
+            }
+
+            if (cobrosExpirados.Count > 0)
+            {
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        // Cancelar un cobro pendiente del Conductor.
+        public async Task<bool> CancelarCobroAsync(int cobroId, int conductorId)
+        {
+            var cobro = await _context.Cobros
+                .FirstOrDefaultAsync(c =>
+                    c.Id == cobroId &&
+                    c.ConductorId == conductorId);
+
+            if (cobro == null ||
+                cobro.Estado != "Pendiente" ||
+                cobro.FechaExpiracion <= DateTime.Now)
+            {
+                return false;
+            }
+
+            cobro.Estado = "Cancelado";
+
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
     }
 }
