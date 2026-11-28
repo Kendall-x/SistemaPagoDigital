@@ -1,60 +1,175 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>@ViewData["Title"] - SistemaPagoDigital</title>
+
     <script type="importmap"></script>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/SistemaPagoDigital.styles.css" asp-append-version="true" />
 </head>
+
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SistemaPagoDigital</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                        @if (User.Identity != null && User.Identity.IsAuthenticated) //Botón para cerrar sesión.
-                        {
-                            <li class="nav-item">
-                                <form asp-controller="Account" asp-action="Logout" method="post">
-                                    <button type="submit" class="nav-link btn btn-link">
-                                        Cerrar sesión
-                                    </button>
-                                </form>
-                            </li>
-                        }
-                    </ul>
-                </div>
+
+    <div class="app-shell">
+
+        <!-- MENÚ LATERAL -->
+        <aside class="sidebar">
+
+            <div class="sidebar-brand">
+                <span class="brand-icon">◆</span>
+                <span>SistemaPagoDigital</span>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+
+            <div class="sidebar-user">
+                @if (User.Identity != null && User.Identity.IsAuthenticated)
+                {
+                    <span class="user-name">@User.Identity.Name</span>
+                    <small>
+                        @if (User.IsInRole("Cliente"))
+                        {
+                            <text>Cliente</text>
+                        }
+                        else if (User.IsInRole("Conductor"))
+                        {
+                            <text>Conductor</text>
+                        }
+                    </small>
+                }
+                else
+                {
+                    <span class="user-name">Bienvenido</span>
+                    <small>Invitado</small>
+                }
+            </div>
+
+            <nav class="sidebar-nav">
+
+                <span class="menu-heading">PRINCIPAL</span>
+
+                <a asp-controller="Home" asp-action="Index"
+                   class="sidebar-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")">
+                    <span>⌂</span> Inicio
+                </a>
+
+                @if (User.IsInRole("Cliente"))
+                {
+                    <span class="menu-heading">MI CUENTA</span>
+
+                    <a asp-controller="Cuenta" asp-action="Index"
+                       class="sidebar-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Cuenta" ? "active" : "")">
+                        <span>◈</span> Mi cuenta
+                    </a>
+
+                    <a asp-controller="Recarga" asp-action="Index"
+                       class="sidebar-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Recarga" ? "active" : "")">
+                        <span>＋</span> Recargar saldo
+                    </a>
+
+                    <a asp-controller="Movimiento" asp-action="Index"
+                       class="sidebar-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Movimiento" ? "active" : "")">
+                        <span>↔</span> Movimientos
+                    </a>
+
+                    <a asp-controller="Pago" asp-action="Index"
+                       class="sidebar-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Pago" ? "active" : "")">
+                        <span>✓</span> Realizar pago
+                    </a>
+                }
+
+                @if (User.IsInRole("Conductor"))
+                {
+                    <span class="menu-heading">GESTIÓN DE COBROS</span>
+
+                    <a asp-controller="Cobro" asp-action="Crear"
+                       class="sidebar-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Cobro" ? "active" : "")">
+                        <span>＋</span> Crear cobro
+                    </a>
+
+                    <a asp-controller="Conductor" asp-action="PagosRecibidos" 
+                       class="sidebar-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Conductor" ? "active" : "")">
+                        <span>✓</span> Pagos recibidos
+                    </a>
+
+                    <span class="menu-heading">REPORTES</span>
+
+                    <a asp-controller="Reporte" asp-action="CobrosPorEstado"
+                       class="sidebar-link @(ViewContext.RouteData.Values["action"]?.ToString() == "CobrosPorEstado" ? "active" : "")">
+                        <span>▤</span> Cobros por estado
+                    </a>
+
+                    <a asp-controller="Reporte" asp-action="CantidadCobrosPorEstado"
+                       class="sidebar-link @(ViewContext.RouteData.Values["action"]?.ToString() == "CantidadCobrosPorEstado" ? "active" : "")">
+                        <span>▥</span> Cantidad por estado
+                    </a>
+
+                    <a asp-controller="Reporte" asp-action="CobrosPorFecha"
+                       class="sidebar-link @(ViewContext.RouteData.Values["action"]?.ToString() == "CobrosPorFecha" ? "active" : "")">
+                        <span>▤</span> Cobros por fecha
+                    </a>
+
+                    <a asp-controller="Reporte" asp-action="Ingresos"
+                       class="sidebar-link @(ViewContext.RouteData.Values["action"]?.ToString() == "Ingresos" ? "active" : "")">
+                        <span>◷</span> Ingresos
+                    </a>
+                }
+
+            </nav>
+
+            <div class="sidebar-bottom">
+
+                @if (User.Identity != null && User.Identity.IsAuthenticated)
+                {
+                    <form asp-controller="Account" asp-action="Logout" method="post">
+                        <button type="submit" class="logout-button">
+                            ↪ Cerrar sesión
+                        </button>
+                    </form>
+                }
+                else
+                {
+                    <a asp-controller="Account" asp-action="Login" class="sidebar-link">
+                        Iniciar sesión
+                    </a>
+
+                    <a asp-controller="Account" asp-action="Registro" class="sidebar-link">
+                        Registrarse
+                    </a>
+                }
+
+            </div>
+
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <div class="main-area">
+
+            <header class="top-header">
+                <span>Plataforma de Pago Digital</span>
+            </header>
+
+            <main class="main-content">
+                @RenderBody()
+            </main>
+
+            <footer class="main-footer">
+                © 2026 SistemaPagoDigital
+            </footer>
+
+        </div>
+
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - SistemaPagoDigital - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>

@@ -1,8 +1,51 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Inicio";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="welcome-panel">
+    <span class="welcome-tag">SISTEMA DE PAGO DIGITAL</span>
+
+    <h1>Bienvenido a tu plataforma de pagos</h1>
+
+    <p>
+        Gestiona tus cobros, pagos y movimientos
+        de forma rápida, sencilla y segura.
+    </p>
+
+    @if (User.Identity != null && User.Identity.IsAuthenticated)
+    {
+        if (User.IsInRole("Cliente"))
+        {
+            <div class="home-actions">
+                <a asp-controller="Cuenta" asp-action="Index" class="btn btn-primary">
+                    Consultar mi cuenta
+                </a>
+                <a asp-controller="Pago" asp-action="Index" class="btn btn-outline-info">
+                    Realizar un pago
+                </a>
+            </div>
+        }
+        else if (User.IsInRole("Conductor"))
+        {
+            <div class="home-actions">
+                <a asp-controller="Cobro" asp-action="Crear" class="btn btn-primary">
+                    Crear un cobro
+                </a>
+                <a asp-controller="Conductor" asp-action="PagosRecibidos" class="btn btn-outline-info">
+                    Consultar pagos recibidos
+                </a>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="home-actions">
+            <a asp-controller="Account" asp-action="Login" class="btn btn-primary">
+                Iniciar sesión
+            </a>
+            <a asp-controller="Account" asp-action="Registro" class="btn btn-outline-info">
+                Crear una cuenta
+            </a>
+        </div>
+    }
 </div>
